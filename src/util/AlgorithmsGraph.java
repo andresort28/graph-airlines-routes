@@ -140,6 +140,95 @@ public class AlgorithmsGraph<V, P>
 		return list;
 	}
 
+/**
+	 * Kruskal Algorithms that return a Minimum Spanning Tree (MST)
+	 * @param g
+	 * @return
+	 * @throws Exception
+	 */
+	public Graph<V, P> getMST_Kruskal (Graph<V, P> g) throws Exception
+	{
+		ArrayList<Edge<V, P>> edges = g.getEdges();
+		//System.out.println("Edges sorted:  " + edges + "\n");
+		Graph<V, P> graph = new Graph<V, P>(g.isDirected(), g.getNumberOfVertexes());
+		graph.loadGraphManually(g.getNumberOfVertexes(), g.getNumberOfEdges());	
+		Object[] vertexes = g.getVertexes(); 
+		for (int i = 0; i < vertexes.length; i++) 
+		{
+			graph.addVertex((V)vertexes[i]);
+			//System.out.println("Vertex " + vertexes[i].toString() + " added to MST");
+		}
+		ArrayList<V> connected = new ArrayList<V>();
+		Iterator<Edge<V, P>> iter = edges.iterator();
+		while(iter.hasNext() )
+		{
+			Edge<V, P> e = iter.next();
+			V u = e.getbegin();
+			V v = e.getEnd();
+			
+//			System.out.println("Edge: <" + u.getVertice() + ", " + v.getVertice() + ", " + e.getWeight() + ">");
+//			System.out.println("Vertex<T> connected in the MST: " + connected);
+//			System.out.println("Total of connected vertexes in the MST: " + connected.size());
+//			System.out.println("Edges in the MST:  " + graph.getEdges());
+//			System.out.println();	
+			
+			boolean uC = connected.contains(u);
+			boolean vC = connected.contains(v);
+			
+			if(uC && vC)
+			{
+				if(!isReachableDFS(graph, u, v))
+					graph.addEdge(u, v, e.getPath());	
+			}
+			else
+			{
+				graph.addEdge(u, v, e.getPath());
+				if(!uC)
+					connected.add(u);
+				if(!vC)
+					connected.add(v);
+			}
+//			System.out.println("Vertex<T> connected in the MST: " + connected);
+//			System.out.println("Total of vertexes in the MST: " + connected.size());
+//			System.out.println("Edges in the MST:  " + graph.getEdges());
+//			System.out.println("***************************************************************");
+//			System.out.println();
+		}
+		return graph;
+	}
+	
+		
+	public Graph<V, P> getMST_Prim (Graph<V, P> g)
+	{
+
+//		Graph<T> graph = new Graph<T>(g.isDirected(), g.getNumberOfVertexes());
+//		graph.loadGraphManually();
+//
+//		ArrayList<Edge<Vertex<T>>> edges = g.getEdges();
+//		
+//		for(Edge<Vertex<T>> e : edges)
+//		{
+//			if( !graph.existVertex( e.getbegin( ) ) && !graph.existVertex( e.getEnd( ) ) )
+//			{
+//				graph.addVertex( e.getbegin( ) );
+//				graph.addVertex( e.getEnd( ) );
+//				graph.addEdge( e.getbegin( ), e.getEnd( ), e.getWeight( ) );				
+//			}
+//			else if( !graph.existVertex( e.getbegin( ) ) && graph.existVertex( e.getEnd( ) ) )
+//			{
+//				graph.addVertex( e.getbegin( ) );
+//				graph.addEdge( e.getbegin( ), e.getEnd( ), e.getWeight( ) );				
+//			}
+//			else if( !graph.existVertex( e.getbegin( ) ) && graph.existVertex( e.getEnd( ) ) )
+//			{
+//				graph.addVertex( e.getEnd( ) );
+//				graph.addEdge( e.getbegin( ), e.getEnd( ), e.getWeight( ) );				
+//			}
+//		}
+//		return graph;
+		return null;
+	}
+
 
 
 
