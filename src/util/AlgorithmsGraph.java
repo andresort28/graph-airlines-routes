@@ -198,36 +198,117 @@ public class AlgorithmsGraph<V, P>
 	}
 	
 		
-	public Graph<V, P> getMST_Prim (Graph<V, P> g)
+/**
+	 * Return the total weight of an especific graph
+	 * @param g
+	 * @return
+	 * @throws Exception
+	 */
+	public int calculateWeight (Graph<V, P> g) throws Exception
 	{
-
-//		Graph<T> graph = new Graph<T>(g.isDirected(), g.getNumberOfVertexes());
-//		graph.loadGraphManually();
-//
-//		ArrayList<Edge<Vertex<T>>> edges = g.getEdges();
-//		
-//		for(Edge<Vertex<T>> e : edges)
-//		{
-//			if( !graph.existVertex( e.getbegin( ) ) && !graph.existVertex( e.getEnd( ) ) )
-//			{
-//				graph.addVertex( e.getbegin( ) );
-//				graph.addVertex( e.getEnd( ) );
-//				graph.addEdge( e.getbegin( ), e.getEnd( ), e.getWeight( ) );				
-//			}
-//			else if( !graph.existVertex( e.getbegin( ) ) && graph.existVertex( e.getEnd( ) ) )
-//			{
-//				graph.addVertex( e.getbegin( ) );
-//				graph.addEdge( e.getbegin( ), e.getEnd( ), e.getWeight( ) );				
-//			}
-//			else if( !graph.existVertex( e.getbegin( ) ) && graph.existVertex( e.getEnd( ) ) )
-//			{
-//				graph.addVertex( e.getEnd( ) );
-//				graph.addEdge( e.getbegin( ), e.getEnd( ), e.getWeight( ) );				
-//			}
-//		}
-//		return graph;
-		return null;
+		ArrayList<String> visited = new ArrayList<String>();
+		int weight = 0;
+		ArrayList<Edge<V, P>> edges = g.getEdges();
+		for (int i = 0; i < edges.size(); i++) 
+		{
+			Edge<V, P> e = edges.get(i);
+			String a = e.getbegin().toString() + e.getEnd().toString();
+			String b = e.getEnd().toString() + e.getbegin().toString();			
+			if(!visited.contains(a) && !visited.contains(b))
+			{
+				weight += e.getWeight();
+				visited.add(a);
+				visited.add(b);
+			}
+		}	
+		return weight;
 	}
+	
+	
+	//-------------------------------------------------------------------------------------------------------------------
+	// FLOYD -WARSHALL WITH PATH
+	//-------------------------------------------------------------------------------------------------------------------
+	
+	
+	public int[][][] floydWarshall (Graph<V, P> g)
+	{
+		int n = g.getNumberOfVertexes();
+		int[][][] fw = new int[n][n][2];
+		
+		for (int i = 0; i < fw.length; i++) {
+			for (int j = 0; j < fw.length; j++) {				
+				if(i == j)
+					fw[i][j][0] = 0;
+				else
+				{
+					P path = g.calculatePath(g.getVertex(i), g.getVertex(j));
+					int w = Integer.MAX_VALUE;
+					if(path != null)
+						w = path.hashCode();
+					fw[i][j][0] = w; 
+				}
+				fw[i][j][1] = -1;
+			}
+		}
+		
+		for( int k = 0; k < n; k++ ) {
+			for( int i = 0; i < fw.length; i++ ) {
+				for( int j = 0; j < fw[i].length; j++ ) {
+					if( fw[i][k][0] != Integer.MAX_VALUE && fw[k][j][0] != Integer.MAX_VALUE && fw[i][k][0] + fw[k][j][0] < fw[i][j][0])
+					{
+						fw[i][j][0] = fw[i][k][0] + fw[k][j][0];
+						fw[i][j][1] = k;
+					}
+				}
+			}
+		}
+		return fw;
+	}
+	
+	
+	public int getShortestDistance_FloydWarshall (Graph<V, P> g, V u, V v, int[][][] fw )
+	{
+		int i = g.getPosition(u);
+		int j = g.getPosition(v);	
+		return fw[i][j][0];
+	}
+
+	public ArrayList<Integer> getVertexesBetween_FloydWarshall (Graph<V, P> g, V u, V v, int[][][] fw, ArrayList<Integer> list)
+	{
+		int i = g.getPosition(u);
+		int j = g.getPosition(v);
+		if(fw[i][j][0] == Integer.MAX_VALUE) // The distance is infinity
+			return list;
+		if(fw[i][j][1] == -1)
+		{
+			if(!list.contains(i))
+				list.add(i);
+			list.add(j);
+			return list;
+		}
+		this.getVertexesBetween_FloydWarshall(g, u, g.getVertex( fw[i][j][1] ), fw, list);
+		this.getVertexesBetween_FloydWarshall(g, g.getVertex( fw[i][j][1] ), v, fw, list);		
+		return list;
+	}
+	
+	public ArrayList<Edge<V, P>> getShortestPath_FloydWarshall (Graph<V, P> g, V u, V v, int[][][] fw)
+	{
+		ArrayList<Integer> list = getVertexesBetween_FloydWarshall(g, u, v, fw, new ArrayList<Integer>());
+		ArrayList<Edge<V, P>> edges = new ArrayList<Edge<V, P>>(); 
+		for (int i = 0; i < list.size()-1; i++) 
+		{
+			V a = g.getVertex(list.get(i));
+			V b = g.getVertex(list.get(i+1));			
+			edges.add(g.searchEgde(a, b, g.calculatePath(a, b)));
+		}		
+		return edges;
+	}	
+	//-------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
+	
 
 
 
