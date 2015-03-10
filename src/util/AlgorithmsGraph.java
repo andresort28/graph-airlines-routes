@@ -100,6 +100,47 @@ public class AlgorithmsGraph<V, P>
 		return list;
 	}
 
+	/**
+	 * Breadth Search of the Graph<T> from the vertice both given as parameters.
+	 * @param g
+	 * @param source
+	 * @return
+	 */
+	public ArrayList<V> breadthFirstSearch (Graph<V, P> g, V source)
+	{
+		ArrayList<V> list = new ArrayList<V>();		
+		boolean[] visited = new boolean[g.getNumberOfVertexes()];
+		LinkedList<Integer> queue = new LinkedList<Integer>();
+		queue.addLast(g.getPosition(source));
+		int c = 0;
+		int actual;
+		while ( !queue.isEmpty() && c != g.getNumberOfVertexes())
+		{
+			//System.out.println("Queue: " + queue);
+			//System.out.println("Poll to:  " + g.getVertex(actual).toString());
+			actual = queue.poll();				
+			if(!visited[actual])
+			{	
+				list.add(g.getVertex(actual));				
+				visited[actual] = true;												
+				c++;
+				ArrayList<Integer> adj = g.getAdjacencies(g.getVertex(actual));
+				
+				//System.out.println("Visited: " + Arrays.asList(visited) );
+				//System.out.println("Adjacent to " + g.getVertex(actual) + "  positions:  " + adj );
+				for (int i = 0; i < adj.size(); i++) 
+				{
+					if(!visited[adj.get(i)])
+						queue.addLast(adj.get(i));
+				}
+				//System.out.println("Queue: " + queue);
+				//System.out.println();			
+			}
+		}
+		return list;
+	}
+
+
 
 
 }
