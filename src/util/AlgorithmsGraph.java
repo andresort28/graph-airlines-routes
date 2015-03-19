@@ -306,6 +306,83 @@ public class AlgorithmsGraph<V, P>
 	//-------------------------------------------------------------------------------------------------------------------
 	
 	
+//-------------------------------------------------------------------------------------------------------------------
+	// DIJKSTRA
+	//-------------------------------------------------------------------------------------------------------------------
+		
+	public Object[] dijkstra (Graph<V, P> g, V source)
+	{
+		initializeDijkstra(g, source);
+		while(!allVertexesVisited())
+		{
+			int u = queueD.poll()[0];
+			visitedD[u] = true;
+			ArrayList<Integer> adj = g.getAdjacencies(g.getVertex(u));
+			for(int v : adj)
+			{
+				relaxEdge(u, v, g.calculatePath(g.getVertex(u), g.getVertex(v)));
+			}
+			refreshPriorityQueue(g);
+		}
+		return new Object[]{distancesD, fathersD};
+	}
+	
+	public void relaxEdge (int u, int v, P path)
+	{
+		if(distancesD[u] != Integer.MAX_VALUE && distancesD[v] > distancesD[u] + path.hashCode())
+		{
+			distancesD[v] = distancesD[u] + path.hashCode();
+			fathersD[v] = u;
+		}
+	}
+	
+	public void refreshPriorityQueue (Graph<V, P> g)
+	{
+		queueD.clear();
+		for (int i = 0; i < distancesD.length; i++) 
+		{
+			if(!visitedD[i])
+				queueD.add(new int[]{i,distancesD[i]});
+		}
+	}
+	
+	public boolean allVertexesVisited ()
+	{
+		for (int i = 0; i < visitedD.length; i++) {
+			if(!visitedD[i])
+				return false;
+		}
+		return true;
+	}
+	
+	public void initializeDijkstra (Graph<V, P> g, V source)
+	{
+		int n = g.getNumberOfVertexes();
+		visitedD = new boolean[g.getNumberOfVertexes()];
+		
+		distancesD = new int[n];		
+		for (int i = 0; i < distancesD.length; i++) {
+			distancesD[i] = Integer.MAX_VALUE;
+		}
+		int pos = g.getPosition(source);
+		distancesD[pos] = 0;	
+		
+		fathersD = new int[n];
+		fathersD[pos] = pos;
+		
+		queueD = new PriorityQueue<int[]>(n, new Comparator<int[]>() {
+			@Override
+			public int compare(int[] d1, int[] d2) 
+			{
+				if(d1[1] > d2[1])
+					return 1;
+				if(d1[1] < d2[1])
+					return -1;
+				return 0;
+			}
+		});
+		refreshPriorityQueue(g);
+	}
 	
 	
 	
