@@ -383,6 +383,35 @@ public class AlgorithmsGraph<V, P>
 		});
 		refreshPriorityQueue(g);
 	}
+
+
+public ArrayList<Edge<V, P>> getShortestPath (Graph<V, P> g, V v, int[] fathers)
+	{		
+		ArrayList<Edge<V, P>> path = new ArrayList<Edge<V, P>>();
+		int pos = g.getPosition(v);
+		while(true)
+		{
+			if(fathersD[pos] == pos)
+				break;	
+			else
+			{
+				V begin = g.getVertex(fathers[pos]);
+				V end = g.getVertex(pos);
+				Edge<V, P> edge = g.searchEgde(begin, end, g.calculatePath(begin, end));
+				path.add(0,edge);
+				pos = fathers[pos];
+			}
+		}
+		return path;
+	}
+	
+	public int getShortestDistance (Graph<V, P> g, V v, int[] distances)
+	{
+		int pos = g.getPosition(v);
+		if(pos != -1)
+			return distances[pos];	
+		return -1;
+	}
 	
 	
 	
