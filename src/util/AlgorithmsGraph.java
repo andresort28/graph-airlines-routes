@@ -59,7 +59,7 @@ public class AlgorithmsGraph<V, P>
 		}		
 		return false;
 	}
-
+	
 	/**
 	 * Depth Search of the Graph<T> from the vertice both given as parameters.
 	 * @param g
@@ -99,7 +99,7 @@ public class AlgorithmsGraph<V, P>
 		}
 		return list;
 	}
-
+	
 	/**
 	 * Breadth Search of the Graph<T> from the vertice both given as parameters.
 	 * @param g
@@ -139,8 +139,9 @@ public class AlgorithmsGraph<V, P>
 		}
 		return list;
 	}
-
-/**
+	
+	
+	/**
 	 * Kruskal Algorithms that return a Minimum Spanning Tree (MST)
 	 * @param g
 	 * @return
@@ -198,7 +199,38 @@ public class AlgorithmsGraph<V, P>
 	}
 	
 		
-/**
+	public Graph<V, P> getMST_Prim (Graph<V, P> g)
+	{
+
+//		Graph<T> graph = new Graph<T>(g.isDirected(), g.getNumberOfVertexes());
+//		graph.loadGraphManually();
+//
+//		ArrayList<Edge<Vertex<T>>> edges = g.getEdges();
+//		
+//		for(Edge<Vertex<T>> e : edges)
+//		{
+//			if( !graph.existVertex( e.getbegin( ) ) && !graph.existVertex( e.getEnd( ) ) )
+//			{
+//				graph.addVertex( e.getbegin( ) );
+//				graph.addVertex( e.getEnd( ) );
+//				graph.addEdge( e.getbegin( ), e.getEnd( ), e.getWeight( ) );				
+//			}
+//			else if( !graph.existVertex( e.getbegin( ) ) && graph.existVertex( e.getEnd( ) ) )
+//			{
+//				graph.addVertex( e.getbegin( ) );
+//				graph.addEdge( e.getbegin( ), e.getEnd( ), e.getWeight( ) );				
+//			}
+//			else if( !graph.existVertex( e.getbegin( ) ) && graph.existVertex( e.getEnd( ) ) )
+//			{
+//				graph.addVertex( e.getEnd( ) );
+//				graph.addEdge( e.getbegin( ), e.getEnd( ), e.getWeight( ) );				
+//			}
+//		}
+//		return graph;
+		return null;
+	}
+	
+	/**
 	 * Return the total weight of an especific graph
 	 * @param g
 	 * @return
@@ -306,7 +338,9 @@ public class AlgorithmsGraph<V, P>
 	//-------------------------------------------------------------------------------------------------------------------
 	
 	
-//-------------------------------------------------------------------------------------------------------------------
+	
+	
+	//-------------------------------------------------------------------------------------------------------------------
 	// DIJKSTRA
 	//-------------------------------------------------------------------------------------------------------------------
 		
@@ -383,9 +417,9 @@ public class AlgorithmsGraph<V, P>
 		});
 		refreshPriorityQueue(g);
 	}
-
-
-public ArrayList<Edge<V, P>> getShortestPath (Graph<V, P> g, V v, int[] fathers)
+	
+		
+	public ArrayList<Edge<V, P>> getShortestPath (Graph<V, P> g, V v, int[] fathers)
 	{		
 		ArrayList<Edge<V, P>> path = new ArrayList<Edge<V, P>>();
 		int pos = g.getPosition(v);
@@ -413,10 +447,72 @@ public ArrayList<Edge<V, P>> getShortestPath (Graph<V, P> g, V v, int[] fathers)
 		return -1;
 	}
 	
+	//-----------------------------------------------------------------------------------------------------------------
+	
+	/**
+	 * Method that return if the graph do not have negative cycle also with the information of fathers and distances of each vertex
+	 * @param g
+	 * @param source
+	 * @return
+	 */
+	public Object[] bellmanFord (Graph<V, P> g, V source)
+	{
+		initializeDijkstra(g, source);
+		int n = g.getNumberOfVertexes();
+		ArrayList<Edge<V, P>> edges = g.getEdges();
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < edges.size(); j++) {
+				Edge<V, P> e = edges.get(j);
+				relaxEdge(g.getPosition(e.getbegin()), g.getPosition(e.getEnd()), e.getPath());
+			}
+		}
+		for (int i = 0; i < edges.size(); i++) {
+			Edge<V, P> e = edges.get(i);
+			if(distancesD[g.getPosition(e.getEnd())] > distancesD[g.getPosition(e.getbegin())] + e.getWeight())
+				return new Object[]{false, distancesD, fathersD};
+		}
+		return new Object[]{true, distancesD, fathersD};
+	}
 	
 	
-
-
-
+	
+	
+	
+	//-------------------------------------------- Print Methods ------------------------------------------------
+	
+	public void printVertices (Graph<V, P> g)
+	{
+		Object[] list = g.getVertexes();
+		ArrayList<String> list2 = new ArrayList<String>();
+		for(Object key : list)
+		{
+			list2.add(g.getPosition((V)key) + key.toString());
+		}
+		Collections.sort(list2);
+		for(String i : list2)
+		{
+			System.out.println(i.substring(0, 1) + "  " + i.substring(1));
+		}
+	}
+	
+	public void printDistancesDijkstra (Graph<V, P> g, int[] distances)
+	{
+		System.out.println("---------- Distances of Dijkstra Algorithm ----------\n");
+		for (int i = 0; i < distances.length; i++) 
+		{
+			System.out.println(i + "  " + g.getVertex(i) + "  distance:  " + distances[i]);
+		}
+	}
+	
+	public void printFathersDijkstra (Graph<V, P> g, int[] fathers)
+	{
+		System.out.println("---------- Fathers Table of Dijkstra Algorithm ----------\n");
+		for (int i = 0; i < fathers.length; i++) 
+		{		
+			V v = g.getVertex(fathers[i]);
+			System.out.println(i + "  " + v.toString() + "  is father of:  " + g.getVertex(i));
+		}
+	}
+	
 
 }
