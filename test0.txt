@@ -1,0 +1,14 @@
+6 7
+Cali
+Tulua
+Buga
+Medellin
+Cartagena
+Bogota
+cali tulua 3
+cali buga 2
+buga tulua 2
+buga bogota 6
+cali bogota 9
+medellin cartagena 7
+cartagena cali 12
