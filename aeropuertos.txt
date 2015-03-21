@@ -1,0 +1,33 @@
+32
+AXM Armenia Aeropuerto Internacional El Edén
+BAQ Barranquilla Aeropuerto Internacional Ernesto Cortissoz
+BOG Bogotá Aeropuerto Internacional El Dorado
+BGA Bucaramanga Aeropuerto Internacional Palonegro
+CLO Cali Aeropuerto Internacional Alfonso Bonilla Aragón
+CTG Cartagena Aeropuerto Internacional Rafael Núñez
+CUC Cúcuta Aeropuerto Internacional Camilo Daza
+LET Leticia Aeropuerto Internacional Alfredo Vásquez Cobo
+MDE Medellín Aeropuerto Internacional José María Córdova
+PEI Pereira Aeropuerto Internacional Matecaña
+RCH Riohacha Aeropuerto Internacional Almirante Padilla
+ADZ SanAndrés Aeropuerto Internacional Gustavo Rojas Pinilla
+SMR SantaMartha Aeropuerto Internacional Simón Bolívar
+APO Apartadó Aeropuerto Antonio Roldán Betancourt
+VUP Valledupar Aeropuerto Alfonso López Pumarejo
+AUC Arauca Aeropuerto Santiago Pérez
+EJA Barrancabermeja Aeropuerto Yariguíes
+FLA Florencia Aeropuerto Gustavo Artunduaga
+IBE Ibagué Aeropuerto Perales
+MZL Manizales Aeropuerto de La Nubia
+EOH Medellín Aeropuerto Olaya Herrera
+MTR Montería Aeropuerto Los Garzones
+NVA Neiva Aeropuerto Benito Salas
+PSO Pasto Aeropuerto Antonio Nariño
+PPN Popayán Aeropuerto Guillermo León Valencia
+PVA Providencia Aeropuerto El Embrujo
+PUU PuertoAsís Aeropuerto Tres de Mayo
+UIB Quibdó Aeropuerto El Caraño
+CZU Sincelejo Aeropuerto Las Brujas
+TCO Tumaco Aeropuerto La Florida
+VVC Villavicencio Aeropuerto Vanguardia
+EYP Yopal Aeropuerto El Alcaraván
