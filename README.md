@@ -11,5 +11,5 @@ Application to analyze the best route in both cost and time from a pool of airli
 Github is all about contributions. If you think you can collaborate or improve this, please make sure you send me a pull request
 
 ## License
-Copyright (c) 2016 [Andres Ortiz](http://www.andresfelipeortiz.com).  
+Copyright (c) 2015 [Andres Ortiz](http://www.andresfelipeortiz.com).  
 Licensed under the MIT license.
